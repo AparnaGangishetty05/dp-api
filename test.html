@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DP API Test</title>
+</head>
+<body>
+  <h2>DP API - Minimum Energy Test</h2>
+
+  <label>Enter cost array (e.g., [10,15,20]):</label><br>
+  <input id="costInput" size="30" placeholder="[10,15,20]">
+  <button onclick="testAPI()">Submit</button>
+
+  <h3>Result:</h3>
+  <pre id="result"></pre>
+
+  <script>
+    async function testAPI() {
+      const input = document.getElementById('costInput').value;
+
+      let costArray;
+      try {
+        costArray = JSON.parse(input);
+      } catch (e) {
+        document.getElementById('result').textContent = "Invalid array format!";
+        return;
+      }
+
+      const res = await fetch('/min-energy', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({cost: costArray})
+      });
+
+      const data = await res.json();
+      document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
